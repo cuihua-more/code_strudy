@@ -10,6 +10,7 @@
 #include <string.h>
 
 #include "error_functions.h"
+#include "get_num.h"
 
 typedef enum
 {

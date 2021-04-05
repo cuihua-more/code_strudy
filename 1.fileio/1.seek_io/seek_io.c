@@ -23,7 +23,7 @@ int main(char argc, char *argv[])
         switch (argv[i][0])         {
         case 'r':
         case 'R':
-            length = atoi(argv[i][1]);
+            length = getLong(&argv[i][1], GN_ANY_BASE, argv[i]);
             break;
 
         case 'w':
