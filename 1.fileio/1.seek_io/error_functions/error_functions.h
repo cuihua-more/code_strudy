@@ -8,5 +8,6 @@
 #endif // __GNUC__
 
 void usageErr(const char *format, ...) NORETURN;
+void errExit(const char *format, ...) NORETURN;
 
 #endif // !ERROR_FUNCTIONS_H

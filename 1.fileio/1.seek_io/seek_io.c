@@ -8,6 +8,7 @@ int main(char argc, char *argv[])
     int fd;
     char *buf;
     int offset, length;
+    ssize_t numRd, numWr;
 
     if ((argc < 3) || (strcmp(argv[1], "--help") == 0)) {
         usageErr("%s file { r<length> | R<length> | w<string> | s<offset> }...\n", argv[0]);
@@ -24,16 +25,50 @@ int main(char argc, char *argv[])
         case 'r':
         case 'R':
             length = getLong(&argv[i][1], GN_ANY_BASE, argv[i]);
+            buf = malloc(length);
+            if (buf == NULL) {
+                errExit("malloc");
+            }
+
+            numRd = read(fd, buf, length);
+            if (numRd == -1) {
+                errExit("read");
+            }
+
+            if (numRd == 0) {
+                printf("%s: end-of-file\n", argv[i]);
+            } else {
+                for (int j = 0; j < numRd; j++) {
+                    if (argv[i][0] == 'r') {
+                        printf("%c", isprint((unsigned char)buf[j]) ? buf[j] : '?');
+                    } else {
+                        printf("%02x", (unsigned int)buf[j]);
+                    }
+                }
+                printf("\n");
+            }
+
             break;
 
-        case 'w':
+        case 'w':   /* write string at currnet offset */
+            numWr = write(fd, &argv[i][1], strlen(&argv[i][1]));
+            if (numWr == -1) {
+                errExit("write");
+            }
+            printf("%s: wrote %ld bytes\n", argv[i], (long)numWr);
             break;
 
-        case 's':
-            offset = atol(argv[i][1]);
+        case 's':   /* Change file offset */
+            offset = getLong(&argv[i][1], GN_ANY_BASE, argv[i]);
+
+            if (lseek(fd, offset, SEEK_CUR) == -1) {
+                errExit("lseek");
+            }
+            printf("%s: seek successed\n", argv[i]);
             break;
 
         default:
+
             break;
         }
     }
