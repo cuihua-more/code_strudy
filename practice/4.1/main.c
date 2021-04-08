@@ -42,8 +42,7 @@ int main(char argc, char *argv[])
             printf("write %s failed!\n", argv[1]);
             exit(EXIT_FAILURE);
         } 
-        if (fputs(buf, stdout)){
-            close(fd);
+        if (fputs(buf, stdout) < 0){
             printf("write %s failed!\n", "stdout");
             exit(EXIT_FAILURE);
         }
