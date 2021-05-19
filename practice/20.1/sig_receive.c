@@ -54,20 +54,18 @@ static void sig_handler(int sig)
 int main(char argc, char *argv[])
 {
     int n;
-    struct sigaction sigac1, sicac2;
+    struct sigaction sigac1;
     sigset_t sigempty, sigMask, sigpend;
     int numSec;
 
     printf("%s: PID is %ld\n", argv[0],(long)getpid());
 
-    sigemptyset(&sigempty);
-
     sigac1.sa_handler = sig_handler;
-    sigac1.sa_mask = sigempty;
-    sigac1.sa_flags = SA_NODEFER;
+    sigac1.sa_flags = 0;
+    sigemptyset(&sigac1.sa_mask);
 
-    for (n = 1; n < NSIG; n++) {
-        sigaction(n, &sigac1, &sicac2);
+    for (n = 1; n < NSIG - 1; n++) {
+        sigaction(n, &sigac1, NULL);
     }
 
     if (argc > 1) {
@@ -94,7 +92,15 @@ int main(char argc, char *argv[])
         }
     }
 
-    
+    while (!gotSignal) {
+        continue;
+    }
 
-    exit(EXIT_SUCCESS);
+    for (n = 0; n < NSIG; n++) {
+        if (sigCnt[n] != 0) {
+            printf("%s: signal %d caught %d time%s\n", argv[0], n, sigCnt[n], (sigCnt[n] == 1) ? "" : "s");
+        }
+    }
+
+        exit(EXIT_SUCCESS);
 }
