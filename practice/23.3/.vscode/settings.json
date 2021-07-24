@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "signal.h": "c",
+        "fcntl.h": "c",
+        "unistd.h": "c",
+        "cstdlib": "c"
+    },
+    "C_Cpp.commentContinuationPatterns": [
+    
+        "/**"
+    ]
+}
