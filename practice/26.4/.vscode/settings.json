@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "wait.h": "c",
+        "libgen.h": "c",
+        "signal.h": "c"
+    },
+    "C_Cpp.default.browse.path": []
+}
