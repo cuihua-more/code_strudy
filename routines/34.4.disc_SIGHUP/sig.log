@@ -1,0 +1,8 @@
+PID of parent proces is         5407
+Foreground process group ID is: 5407
+PID = 5407 PGID = 1000
+PID = 5437 PGID = 1000
+PID = 5435 PGID = 1000
+PID = 5436 PGID = 1000
+PID 5437 caught signal 1 (Hangup)
+PID 5436 caught signal 1 (Hangup)
