@@ -16,6 +16,7 @@ int main(char argc, char *argv[])
     struct response resp;
     struct request req;
     int reqNum = 0;
+    int count = 0;
 
     umask(0);
 
@@ -42,24 +43,34 @@ int main(char argc, char *argv[])
     }
 
     while (1) {
+        count++;
+        if (count == 3) {
+            break;
+        }
+
         if (read(serverFd, (void *)&req, sizeof(req) != sizeof(req))) {
             fprintf(stderr, "Erroe read request!\n");
             continue;
         }
+        
         memset((void *)clientFifo, 0, sizeof(clientFifo));
 
-        snprintf(clientFifo, sizeof(clientFifo), CLIENT_FIFO_TEMPLATE, (long)req.pid);
+        snprintf(clientFifo, sizeof(clientFifo), CLIENT_FIFO_TEMPLATE, (unsigned long)req.pid);
+        printf("client req pid = %ld. reqNum = %d\n %s\n", (long)req.pid, req.seqLen, clientFifo);
         clientFd = open(clientFifo, O_WRONLY);
-        if (dummyFd == -1) {
+        if (clientFd == -1) {
             fprintf(stderr, "open client fifo failed! path = %s, line = %d\n", clientFifo, __LINE__);
             continue;
         }
+
 
         reqNum += req.seqLen;
         resp.seqLen = reqNum;
 
         if (write(clientFd, (void *)&resp, sizeof(resp)) != sizeof(resp)) {
             fprintf(stderr, "write client fifo failed! path = %s, line = %d\n", clientFifo, __LINE__);
+            close(clientFd);
+            continue;
         }
 
         close(clientFd);
