@@ -17,13 +17,23 @@
 #define SERVER_LOG_INDET    "svmsg_server"
 
 static int serverIdFd;
+static int serverId;
+
+volatile char recvSig = 0;
 
 static void onExit(void)
 {
     if (remove(SERVER_KEY_FILE) == -1) {
-        fprintf(stderr, "remove file failed!\n line = %d\n", __LINE__);
+        fprintf(stderr, "remove file failed! line = %d\n", __LINE__);
     }
     closelog();
+    msgctl(serverId, IPC_RMID, NULL);
+}
+
+static void SIGINT_Hanndler(int signal)
+{
+    printf("recv SIGINT signal is %d\n", signal);
+    exit(EXIT_FAILURE);
 }
 
 static void SIGCHILD_Hanler(int signal)
@@ -78,7 +88,6 @@ static void serverRequest(struct requestMsg *msg)
 int main(char argc, char *argv[])
 {
     struct requestMsg req;
-    int serverId;
     struct sigaction sa;
     int msgLen;
     pid_t pid;
@@ -123,11 +132,14 @@ int main(char argc, char *argv[])
 
     sigemptyset(&sa.sa_mask);
     sa.sa_flags     = SA_RESTART;
-    sa.sa_handler = SIGCHILD_Hanler;
+    sa.sa_handler  = SIGCHILD_Hanler;
     if (sigaction(SIGCHLD, &sa, NULL) == -1) {
         fprintf(stderr, "sigaction failed! line = %d\n", __LINE__);
         exit(EXIT_FAILURE);
     }
+
+    signal(SIGINT, SIGINT_Hanndler);
+    signal(SIGTERM, SIGINT_Hanndler);
 
     while (1) {
         msgLen = msgrcv(serverId, (void *)&req, REQ_MSG_SIZE, 0, 0);
