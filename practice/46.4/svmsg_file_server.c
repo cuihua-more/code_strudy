@@ -12,6 +12,9 @@
 #include <signal.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <syslog.h>
+
+#define SERVER_LOG_INDET    "svmsg_server"
 
 static int serverIdFd;
 
@@ -20,6 +23,7 @@ static void onExit(void)
     if (remove(SERVER_KEY_FILE) == -1) {
         fprintf(stderr, "remove file failed!\n line = %d\n", __LINE__);
     }
+    closelog();
 }
 
 static void SIGCHILD_Hanler(int signal)
@@ -38,6 +42,18 @@ static void serverRequest(struct requestMsg *msg)
     struct responseMsg resp;
     int fd;
     int readLen;
+
+    /*
+     * open log 
+     */
+    openlog(SERVER_LOG_INDET, LOG_CONS | LOG_PID |LOG_NOWAIT, LOG_USER);
+
+    /*
+     * 设置可以打印出的log等级，只有大于这个等级的消息才不会被丢弃 
+     */
+    //setlogmask(LOG_UPTO(LOG_WARNING));
+
+    syslog(LOG_ERR, "%s", "Test for log!");
 
     fd = open(msg->pathName, O_RDONLY);
     if (fd == -1) {
