@@ -34,7 +34,7 @@ VPATH	?= $(SRCPATH)
 CFLAG	?= $(patsubst %, -I%, $(INCPATH))
 
 $(Target) : $(OBJ)	
-	$(CC)  $^ -g -o $@ -lrt -pthread
+	$(CC)  $^ -g -o $@ -lrt -pthread -lmydef
 
 $(OBJ_C) : $(OBJPATH)/%.o : %.c | mkobjpath
 	$(CC) -c -g  -pthread $(CFLAG) $< -o $@ 

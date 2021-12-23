@@ -1,4 +1,22 @@
-Target	?= demo
+# 库名称
+LIB_NAME		?= mydef
+# 库主版本号
+LIB_VER_MAJOR	?= 1
+# 库次版本号
+LIB_VER_MINOR	?= 1
+# 安装库的路径
+LIB_INSTALL_PATH	?= /lib
+# 库头文件路径
+LIB_INC_PATH	?= /usr/include
+# 库头文件
+LIB_INC			?= myDef.h
+
+# link name
+LIB_LINKNAME	?= lib$(LIB_NAME).so
+# soname
+LIB_SONAME		?= $(LIB_LINKNAME).$(LIB_VER_MAJOR)
+
+LIB				?= $(LIB_SONAME).$(LIB_VER_MINOR)
 
 ifeq ($(ARCH), arm)
 COMPILE	?= arm-linux-gnueabihf-
@@ -33,14 +51,16 @@ VPATH	?= $(SRCPATH)
 # 编译选项
 CFLAG	?= $(patsubst %, -I%, $(INCPATH))
 
-$(Target) : $(OBJ)	
-	$(CC)  $^ -g -o $@ -lrt -pthread
+$(LIB) : $(OBJ)	
+	$(CC)  $^ -g -shared -Wl,-soname,$(LIB_SONAME) -o $@
 
 $(OBJ_C) : $(OBJPATH)/%.o : %.c | mkobjpath
-	$(CC) -c -g  -pthread $(CFLAG) $< -o $@ 
+	$(CC) -g -c -fPIC -Wall $(CFLAG) $< -o $@ 
 
 PHONY:
 	@echo Target	= $(Target)
+	@echo LIBSONAME	= $(LIBSONAME)
+	@echo LIB		= $(LIB)
 	@echo COMPILE	= $(COMPILE)
 	@echo CC 		= $(CC)
 	@echo SRCPATH	= $(SRCPATH)
@@ -49,7 +69,15 @@ PHONY:
 	@echo CFLAG		= $(CFLAG)
 
 clean:
-	rm -rf $(OBJPATH) $(Target) temp1.txt temp2.txt
+	rm -rf $(OBJPATH) $(LIB) 
 
 mkobjpath:
 	@mkdir -p $(OBJPATH)
+
+install:
+	@cp $(LIB) $(LIB_INSTALL_PATH)/
+	@ldconfig 
+	@rm $(LIB_INSTALL_PATH)/$(LIB_LINKNAME)
+	@ln -s $(LIB_INSTALL_PATH)/$(LIB_SONAME) $(LIB_INSTALL_PATH)/$(LIB_LINKNAME)
+	@rm $(LIB_INC_PATH)/$(LIB_INC)
+	@cp $(LIB_INC) $(LIB_INC_PATH)/

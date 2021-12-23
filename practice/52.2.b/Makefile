@@ -49,7 +49,15 @@ PHONY:
 	@echo CFLAG		= $(CFLAG)
 
 clean:
-	rm -rf $(OBJPATH) $(Target) temp1.txt temp2.txt
+	rm -rf $(OBJPATH) $(Target) server client aaa
 
 mkobjpath:
 	@mkdir -p $(OBJPATH)
+
+special: server client
+
+server:
+	gcc file_server.c -o server -lrt -pthread
+
+client:
+	gcc file_client.c -o client -lrt -pthread
