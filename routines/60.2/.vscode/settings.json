@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "id_echo.h": "c",
+        "mydef.h": "c",
+        "syslog.h": "c"
+    }
+}
