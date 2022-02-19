@@ -3,7 +3,7 @@ LIB_NAME		?= mydef
 # 库主版本号
 LIB_VER_MAJOR	?= 1
 # 库次版本号
-LIB_VER_MINOR	?= 1
+LIB_VER_MINOR	?= 2
 # 安装库的路径
 LIB_INSTALL_PATH	?= /lib
 # 库头文件路径
