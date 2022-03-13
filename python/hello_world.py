@@ -184,3 +184,20 @@ for username, user_info in user.items() : # 遍历字典套字典
     print(f"{username}")
     for key, value in user_info.items() :
         print(f"\t {key} : {value}")
+
+#message = input("Please input:")    # 获取输入， 获取的是字符串形式
+print(f"input: {message}")
+#num = input("Please input number:")
+num = int(num)  # 将字符串形式的数字转换为int型
+if num > 20 :
+    print(f"input > 20")
+else :
+    print("input < 20")
+
+print(f"12 / 5 = {12 / 5}") # 会把结果自动转换为浮点
+print(f"12 % 5 = {12 % 5}")
+
+message = ""
+while message != "quit":
+    #message = input("Please input") 
+    print(message)
