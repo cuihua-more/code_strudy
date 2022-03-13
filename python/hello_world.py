@@ -61,3 +61,58 @@ magicians = ["alice", "david", "carolina"]
 for magician in magicians:  # for循环
     print(magician)
     print(f"still is {magician.title()}")
+
+for value in range(1, 5): # for (value = 1; value < 5; value++)
+    print(value)
+
+print(f"----------------")
+for value in range(1, 5, 2): # for (value = 1; value < 5; value += 2)
+    print(value)
+
+numbers = list(range(1, 5)) # list可以将range产生的一系列数转换为列表
+print(numbers)
+
+print(f"------------------------------------")
+numbers = [value for value in range(3, 31, 3)]
+print(numbers)
+
+
+players = ["charles", "martina", "micheal", "florence", "eli"]
+print(players[0:3]) #[]可以用作范围
+print(players[:3]) #从头开始
+print(players[2:]) #终于结尾
+print(players[-3:]) # 总是输出后三个
+
+my_foods = ["pizza", "falfel", "carrot cake"]
+friend_foods = my_foods[:] # 这是赋值，把my_foods内容完成赋值一份给friend_foods
+friend2_foods = my_foods # 这是引用，相当于friends_foods指针指向my_foods内容
+my_foods.append("1")
+friend_foods.append("2")
+friend2_foods.append("3")
+print(my_foods)
+print(friend_foods)
+print(friend2_foods)
+
+requested_toppings = ["mushroom", "onions", "pineapple"]
+if ("mushroom" in requested_toppings) :
+    print(f"yes")
+else :
+    print(f"no")
+chr = "onions"
+if (chr in requested_toppings) :
+    print(f"{chr} yes")
+else :
+    print(f"{chr} no")
+
+chr = "others"
+if (chr not in requested_toppings) :
+    print(f"{chr} yes not")
+else :
+    print(f"{chr} no not")
+
+requested_toppings = []
+if requested_toppings :
+    print(f"requested_toppings is full")
+    print(requested_toppings)
+else :
+    print(f"requested_toppings is empty")
