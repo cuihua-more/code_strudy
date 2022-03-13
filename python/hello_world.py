@@ -1,3 +1,4 @@
+import aifc
 from http.client import CannotSendRequest
 from math import factorial
 from re import M
@@ -116,3 +117,70 @@ if requested_toppings :
     print(requested_toppings)
 else :
     print(f"requested_toppings is empty")
+
+alien_0 = {"color" : "green", "points" : 5} # 字典
+print(alien_0["color"])
+alien_0["add"] = "vaule"    # 添加一个新的键值对
+print(alien_0)
+del alien_0["add"] # 删除一个键值对
+print(alien_0)
+print(alien_0.get("add", "NULL")) # get用来获取指定键的值，可以存在键不存在的情况，如果不存在则返回第二个参数内容
+
+user_0 = {
+    "username" : "efemi",
+    "first" : "enrico",
+    "last" : "fermi",
+    }
+for key, value in user_0.items() :  # 遍历键值对 item表示键值对
+    print(f"{key} : {value}")
+for key in user_0.keys() :
+    print(f"keys is {key}") # 遍历键内容 keys表示键
+for key in sorted(user_0.keys()) :  # sorted排序并返回
+    print(f"sorted key is {key}")
+
+favorite_labguage = {
+    "jen" : "python",
+    "sarah" : "c",
+    "edwad" : "ruby",
+    "phil" : "python",
+    }
+for value in set(favorite_labguage.values()) :  # set会剔除输入队列的重复项，并返回剩余项
+    print(f"value is {value}")
+
+aliens = [] # 列表也可以储存字典，
+for num in range(1, 31) :
+    new_alien = {"color" : "green", "points" : num}
+    aliens.append(new_alien)
+
+print(aliens)
+print(f"---------------------")
+print(f"Total alien number is {len(aliens)}")
+
+toppings = ["mushroom", "extra cheese"]
+pizza = {"crush" : "thick", "toppings" : toppings} # 字典中也可以储存列表
+print(pizza)
+
+user = {    # 字典也可以套字典
+    "aeinstein" : {
+        "first" : "albert",
+        "last" : "sinstein",
+        "location" : "princeton",
+        },
+    "mcurite" : {
+        "first" : "marie",
+        "last" : "curise",
+        "location" : "parise"
+        },
+    }
+for username, user_info in user.items() :
+    print(f"Username : {username}")
+    fullname = f"{user_info['first']} {user_info['last']}" 
+    location = user_info["location"]
+
+    print(f"\tFull Name: {fullname.title()}")
+    print(f"\tLocation: {location.title()}")
+    
+for username, user_info in user.items() : # 遍历字典套字典
+    print(f"{username}")
+    for key, value in user_info.items() :
+        print(f"\t {key} : {value}")
