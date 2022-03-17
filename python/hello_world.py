@@ -24,7 +24,7 @@ print(f"Language:\n\tPython\n\tC\n\tCPP\n\tjavaScript") # /n /t等和C语言一�
 
 favorite_labguage = " Python "
 print(favorite_labguage)
-print(favorite_labguage.rstrip()) # 返回除最后空格的字符串
+print(favorite_labguage.rstrip()) # 返回除最后空格的字符串 strip删除左边的空格
 print(favorite_labguage)
 favorite_labguage = favorite_labguage.rstrip() #要保存除最后空格的字符串的话需要重新赋值
 print(favorite_labguage)
